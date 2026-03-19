@@ -9,8 +9,11 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "@moleculer/channels": "^0.2.0",
+    "ioredis": "^5.10.1",
     "moleculer": "^0.14.35",
-    "moleculer-web": "^0.10.8"
+    "moleculer-web": "^0.10.8",
+    "nats": "^2.29.3"
   },
   "devDependencies": {
     "@types/node": "^22",

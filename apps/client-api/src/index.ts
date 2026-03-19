@@ -1,9 +1,19 @@
-import { ServiceBroker } from "moleculer";
+import { ServiceBroker, Middleware } from "moleculer";
+import { Middleware as ChannelsMiddleware, Adapters as ChannelsAdapters } from "@moleculer/channels";
 import GreeterService from "./services/greeter.service";
-import ApiService from "./services/api.service";
 import HealthService from "./services/health.service";
+import ApiService from "./services/api.service";
 
 const broker = new ServiceBroker({
+  transporter: process.env.NATS_URL || "nats://localhost:4222",
+  cacher: process.env.REDIS_URL || "redis://localhost:6379",
+  middlewares: [
+    ChannelsMiddleware({
+        adapter: new ChannelsAdapters.NATS({
+            url: process.env.NATS_URL || "nats://localhost:4222"
+        })
+    }) as unknown as Middleware
+  ],
 });
 
 broker.createService(GreeterService);
