@@ -12,6 +12,12 @@ export default class ApiService extends Service {
         port: process.env.PORT ? Number(process.env.PORT) : 8000,
         routes: [
           {
+            path: "/health",
+            aliases: {
+              "GET /": "health.check",
+            },
+          },
+          {
             path: "/api",
             aliases: {
               "GET /greeter/hello": "greeter.hello",
