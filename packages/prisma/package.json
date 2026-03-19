@@ -1,0 +1,25 @@
+{
+  "name": "@app/prisma",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "",
+  "main": "./generated/index.js",
+  "exports": {
+    ".": "./generated/index.js",
+    "./*": "./generated/*"
+  },
+  "scripts": {
+    "build": "prisma generate",
+    "migrate": "prisma migrate deploy",
+    "migrate-dev": "prisma db push --skip-generate",
+    "migrate-create": "prisma migrate dev --skip-generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.2.0"
+  },
+  "devDependencies": {
+    "@prisma/config": "^7.2.0",
+    "dotenv": "^17.2.3",
+    "prisma": "^7.2.0"
+  }
+}
