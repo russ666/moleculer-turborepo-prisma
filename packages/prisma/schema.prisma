@@ -21,4 +21,12 @@ model User {
   verifiedAt    DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  auth          Auth?
+}
+
+model Auth {
+  userId        String    @id
+  passwordHash  String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
