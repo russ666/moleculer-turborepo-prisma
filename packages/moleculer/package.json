@@ -11,12 +11,17 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "@app/prisma": "*",
     "@moleculer/channels": "^0.2.0",
+    "bcryptjs": "^2.4.3",
     "ioredis": "^5.10.1",
+    "jsonwebtoken": "^9.0.2",
     "moleculer": "^0.14.35",
     "nats": "^2.29.3"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22",
     "typescript": "^5.9.2"
   }

@@ -22,6 +22,11 @@ export default class ApiService extends Service {
             aliases: {
               "GET /greeter/hello": "greeter.hello",
               "GET /greeter/welcome": "greeter.welcome",
+              "POST /auth/register": "auth.register",
+              "POST /auth/login": "auth.login",
+              "POST /auth/login/social": "auth.loginSocial",
+              "GET /auth/verify": "auth.verify",
+              "GET /users/:id": "user.get",
             },
           },
         ],

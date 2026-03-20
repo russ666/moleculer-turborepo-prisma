@@ -1,5 +1,5 @@
 import { ServiceBroker } from "moleculer";
-import { brokerConfig, GreeterService } from "@app/moleculer";
+import { brokerConfig, GreeterService, UserService, AuthService } from "@app/moleculer";
 
 import HealthService from "./services/health.service";
 import ApiService from "./services/api.service";
@@ -7,6 +7,8 @@ import ApiService from "./services/api.service";
 const broker = new ServiceBroker(brokerConfig);
 
 broker.createService(GreeterService);
+broker.createService(UserService);
+broker.createService(AuthService);
 broker.createService(HealthService);
 broker.createService(ApiService);
 
