@@ -1,4 +1,4 @@
-import { Context, Service, ServiceBroker, ServiceSchema } from "moleculer";
+import { Context, Service, ServiceBroker } from "moleculer";
 
 interface HealthResult {
   status: "ok";
@@ -19,6 +19,6 @@ export default class HealthService extends Service {
           },
         },
       },
-    } as ServiceSchema);
+    });
   }
 }

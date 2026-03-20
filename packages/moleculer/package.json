@@ -1,0 +1,23 @@
+{
+  "name": "@app/moleculer",
+  "version": "0.0.1",
+  "description": "Shared Moleculer broker config and services",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@moleculer/channels": "^0.2.0",
+    "ioredis": "^5.10.1",
+    "moleculer": "^0.14.35",
+    "nats": "^2.29.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,4 +1,4 @@
-import { Service, ServiceBroker, ServiceSchema } from "moleculer";
+import { Service, ServiceBroker } from "moleculer";
 import ApiGateway from "moleculer-web";
 
 export default class ApiService extends Service {
@@ -29,6 +29,6 @@ export default class ApiService extends Service {
           folder: "public",
         },
       },
-    } as ServiceSchema);
+    });
   }
 }
