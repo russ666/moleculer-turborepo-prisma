@@ -22,6 +22,10 @@ broker.createService(ApiService);
 
 broker.start()
   .then(async () => {
+    const result = await broker.call<string, { name: string }>(
+      "greeter.hello",
+      { name: "Moleculer" }
+    );
     broker.logger.info("Broker started");
   })
   .catch((err) => {

@@ -6,14 +6,22 @@ export default class GreeterService extends Service {
 
     this.parseServiceSchema({
       name: "greeter",
+      channels: {
+        "greeter.welcome": {
+          async handler(payload: { name: string }) {
+            broker.logger.info(`Channel received welcome message for: ${payload.name}`);
+          },
+        },
+      },
       actions: {
         hello: {
           rest: "GET /hello",
           params: {
             name: { type: "string", optional: true },
           },
-          handler(ctx: Context<{ name?: string }>): string {
+          async handler(ctx: Context<{ name?: string }>): Promise<string> {
             const name = ctx.params.name ?? "World";
+            await broker.sendToChannel("greeter.welcome", { name });
             return `Hello, ${name}!`;
           },
         },
