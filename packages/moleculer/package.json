@@ -13,16 +13,21 @@
   "dependencies": {
     "@app/prisma": "*",
     "@moleculer/channels": "^0.2.0",
+    "@prisma/adapter-pg": "^7.5.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^17.3.1",
     "ioredis": "^5.10.1",
     "jsonwebtoken": "^9.0.2",
     "moleculer": "^0.14.35",
-    "nats": "^2.29.3"
+    "nats": "^2.29.3",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22",
+    "@types/pg": "^8.11.11",
     "typescript": "^5.9.2"
   }
 }

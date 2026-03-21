@@ -1,12 +1,11 @@
 import { Context, Errors, Service, ServiceBroker, ServiceSchema } from "moleculer";
-import { PrismaClient } from "@app/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const prisma = new PrismaClient();
+import { config } from "../config";
+import { prisma, User } from "../prisma";
+
 const SALT_ROUNDS = 12;
-const JWT_SECRET = process.env.JWT_SECRET || "change-me-in-production";
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 export interface RegisterParams {
   email: string;
@@ -38,8 +37,8 @@ export interface VerifyTokenParams {
 }
 
 function signToken(userId: string, role: string): string {
-  return jwt.sign({ sub: userId, role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
+  return jwt.sign({ sub: userId, role }, config.JWT_SECRET, {
+    expiresIn: config.JWT_EXPIRES_IN as jwt.SignOptions["expiresIn"],
   });
 }
 
@@ -57,9 +56,10 @@ export default class AuthService extends Service {
             name: { type: "string", optional: true },
           },
           async handler(ctx: Context<RegisterParams>) {
-            const existing = await prisma.user.findUnique({
-              where: { email: ctx.params.email },
-            });
+            const existing = await this.broker.call(
+              "user.getByEmail",
+              { email: ctx.params.email }
+            );
 
             if (existing) {
               throw new Errors.MoleculerClientError(
@@ -71,15 +71,13 @@ export default class AuthService extends Service {
             }
 
             const hash = await bcrypt.hash(ctx.params.password, SALT_ROUNDS);
-            const user = await prisma.user.create({
-              data: {
-                email: ctx.params.email,
-                name: ctx.params.name,
-                password: {
-                  create: { hash },
-                },
-              },
-              select: { id: true, email: true, name: true, role: true },
+            const user = await this.broker.call("user.create", {
+              email: ctx.params.email,
+              name: ctx.params.name,
+            }) as User;
+
+            await prisma.password.create({
+              data: { userId: user.id, hash },
             });
 
             return { token: signToken(user.id, user.role), user };
@@ -213,7 +211,7 @@ export default class AuthService extends Service {
           },
           handler(ctx: Context<VerifyTokenParams>) {
             try {
-              const decoded = jwt.verify(ctx.params.token, JWT_SECRET) as jwt.JwtPayload;
+              const decoded = jwt.verify(ctx.params.token, config.JWT_SECRET) as jwt.JwtPayload;
               return { valid: true, sub: decoded.sub, role: decoded.role };
             } catch {
               throw new Errors.MoleculerClientError(

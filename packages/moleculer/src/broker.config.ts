@@ -1,13 +1,16 @@
 import { BrokerOptions, Middleware } from "moleculer";
 import { Middleware as ChannelsMiddleware, Adapters as ChannelsAdapters } from "@moleculer/channels";
+import { config } from "./config";
+
+console.log("Using NATS URL:", config.NATS_URL);
 
 export const brokerConfig: BrokerOptions = {
-  transporter: process.env.NATS_URL || "nats://localhost:4222",
-  cacher: process.env.REDIS_URL || "redis://localhost:6379",
+  transporter: config.NATS_URL,
+  cacher: config.REDIS_URL,
   middlewares: [
     ChannelsMiddleware({
       adapter: new ChannelsAdapters.NATS({
-        url: process.env.NATS_URL || "nats://localhost:4222",
+        url: config.NATS_URL,
       }),
     }) as unknown as Middleware,
   ],
